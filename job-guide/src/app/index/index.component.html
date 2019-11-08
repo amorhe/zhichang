@@ -1,0 +1,379 @@
+<style>
+  .hover-red{
+    width: 100%;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+  }
+  .hover-red:hover {
+    color: #D10000 !important;
+    cursor: pointer;
+  }
+</style>
+
+<ng-container *ngIf="httpService.devType">
+
+  <nz-carousel *ngIf="bannerlist.length"
+               [nzAutoPlaySpeed]="3000"
+               [nzAutoPlay]="true"
+               [nzDots]="bannerlist.length>1"
+               [nzEffect]="effect"
+               [nzEnableSwipe]="true">
+    <div *ngFor="let index of bannerlist"
+         nz-carousel-content
+         style="cursor: pointer;">
+      <div *ngIf="index.courseId" [routerLink]="'../vd/'+index.courseId">
+        <img [src]="index.imageUrl" style="display: block;width: 100vw;">
+      </div>
+      <a *ngIf="!index.courseId && index.link" [href]="index.link" style="display: block;">
+        <img [src]="index.imageUrl" style="display: block;width: 100vw;">
+      </a>
+      <div *ngIf="!index.courseId && !index.link">
+        <img [src]="index.imageUrl" style="display: block;width: 100vw;">
+      </div>
+    </div>
+  </nz-carousel>
+
+
+  <!--  热门视频    -->
+  <div class="vd-wrapper">
+    <div class="vd-box" style="padding-bottom: 40px!important;">
+      <div class="vd-box-header mrB">
+        <h1 class="vd-box-title">热门视频</h1>
+        <div class="vd-pagination">
+          <!-- todo：查看更多-->
+          <a routerLink="../hot">查看更多 <i nz-icon nzTheme="outline" nzType="double-right"></i></a>
+        </div>
+      </div>
+
+      <nz-list
+        [nzDataSource]="hots?.currentData"
+        [nzGrid]="{ gutter: 16, sm: 12, md: 8, lg: 6  }"
+        [nzRenderItem]="item"
+      >
+        <ng-template #item let-item>
+          <nz-list-item [nzContent]="nzContent">
+            <ng-template #nzContent>
+              <app-vditem [data]="item"></app-vditem>
+            </ng-template>
+          </nz-list-item>
+        </ng-template>
+      </nz-list>
+    </div>
+
+    <!--  广告位 -->
+    <ng-container *ngIf="guanggao.ggHotList.length>0">
+      <div class="vd-wrapper">
+        <a class="vd-box" (click)="httpService.prevent($event,guanggao.ggHotList[0]?.link)" [href]="guanggao.ggHotList[0]?.link" target="_blank">
+          <div class="vd-box-header">
+            <img alt="" class="li-ad-img" [src]="guanggao.ggHotList[0]?.imageUrl">
+          </div>
+        </a>
+      </div>
+    </ng-container>
+
+    <!--    志愿填报    -->
+    <div class="vd-box li-fa-zan-zhi-lu" style="padding-top: 30px">
+      <div class="vd-box-header mrB">
+        <h1 class="vd-box-title">职业发展</h1>
+        <div class="vd-pagination">
+          <a routerLink="../development">查看更多 <i nz-icon nzTheme="outline" nzType="double-right"></i></a>
+        </div>
+      </div>
+      <nz-list [nzDataSource]="developList" [nzGrid]="{ gutter: 16, sm: 12, md: 8, lg: 6 }" [nzRenderItem]="item">
+        <ng-template #item let-item>
+          <nz-list-item [nzContent]="nzContent">
+            <ng-template #nzContent>
+              <app-vditem [data]="item"></app-vditem>
+            </ng-template>
+          </nz-list-item>
+        </ng-template>
+      </nz-list>
+    </div>
+
+    <ng-container *ngIf="guanggao.ggDevelopList.length>0">
+      <div class="vd-wrapper">
+        <a class="vd-box" (click)="httpService.prevent($event,guanggao.ggDevelopList[0]?.link)" [href]="guanggao.ggDevelopList[0]?.link" target="_blank">
+          <div class="vd-box-header">
+            <img alt="" class="li-ad-img" [src]="guanggao.ggDevelopList[0]?.imageUrl">
+          </div>
+        </a>
+      </div>
+    </ng-container>
+
+    <!--    专业前景    -->
+
+    <div class="vd-box  li-fa-zan-zhi-lu" style="padding-bottom: 100px !important;">
+      <div class="vd-box-header mrB">
+        <h1 class="vd-box-title">热门岗位 </h1>
+        <div class="vd-pagination">
+          <a routerLink="../profession">查看更多 <i nz-icon nzTheme="outline" nzType="double-right"></i></a>
+        </div>
+      </div>
+      <nz-list [nzDataSource]="professionList" [nzGrid]="{ gutter: 16, sm: 12, md: 8, lg: 6 }" [nzRenderItem]="item">
+        <ng-template #item let-item>
+          <nz-list-item [nzContent]="nzContent">
+            <ng-template #nzContent>
+              <app-vditem [data]="item"></app-vditem>
+            </ng-template>
+          </nz-list-item>
+        </ng-template>
+      </nz-list>
+    </div>
+
+    <ng-container *ngIf="guanggao.ggProfessionList.length>0">
+      <div class="vd-wrapper">
+        <a class="vd-box" (click)="httpService.prevent($event,guanggao.ggProfessionList[0]?.link)" [href]="guanggao.ggProfessionList[0]?.link" target="_blank">
+          <div class="vd-box-header">
+            <img alt="" class="li-ad-img" [src]="guanggao.ggProfessionList[0]?.imageUrl">
+          </div>
+        </a>
+      </div>
+    </ng-container>
+
+    <!--    求职实习-->
+    <!--    求职实习-->
+
+    <!--    fixme : 图片数组-->
+    <div class="vd-box" style="padding-top: 50px">
+      <div class="vd-box-header mrB">
+        <h1 class="vd-box-title">求职实习 </h1>
+        <div class="vd-pagination">
+          <a routerLink="/gaokao">查看更多 <i nz-icon nzTheme="outline" nzType="double-right"></i></a>
+        </div>
+      </div>
+
+
+      <div class="li-gao-kao">
+        <div class="item">
+          <img alt="" src="../../assets/gk.jpg">
+
+          <div class="content">
+            <h6>找工作</h6>
+
+            <ul>
+              <li class="hover-red" (click)="router.navigateByUrl('/gaokao-detail?id='+ item.id + '&type=' + item.type)"  *ngFor="let item of gaokaozixun1[0]?.iPage1"><span></span> {{item.title}}</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="item">
+          <img alt="" src="../../assets/gk2.jpg">
+
+          <div class="content">
+            <h6>找兼职</h6>
+
+            <ul>
+              <li class="hover-red" (click)="router.navigateByUrl('/gaokao-detail?id='+ item.id + '&type=' + item.type)"  *ngFor="let item of gaokaozixun1[0]?.iPage2"><span></span> {{item.title}}</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="item">
+          <img alt="" src="../../assets/gk3.jpg">
+
+          <div class="content">
+            <h6>找实习</h6>
+            <ul>
+              <li class="hover-red" (click)="router.navigateByUrl('/gaokao-detail?id='+ item.id + '&type=' + item.type)"  *ngFor="let item of gaokaozixun1[0]?.iPage3"><span></span> {{item.title}}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+
+
+    </div>
+
+
+    <!--广告位-->
+    <!--广告位-->
+    <!--广告位-->
+
+    <ng-container *ngIf="guanggao.ggZiXunList.length>0">
+      <div class="vd-wrapper">
+        <a class="vd-box" (click)="httpService.prevent($event,guanggao.ggZiXunList[0]?.link)" [href]="guanggao.ggZiXunList[0]?.link" target="_blank">
+          <div class="vd-box-header">
+            <img alt="" class="li-ad-img" [src]="guanggao.ggZiXunList[0]?.imageUrl">
+          </div>
+        </a>
+      </div>
+    </ng-container>
+
+    <!--    共用底部-->
+    <!--<div class="vd-slogan-wrapper">-->
+      <!--<div class="vd-slogan">-->
+        <!--<p>现在就去注册，为自己的职业发展做选择</p>-->
+        <!--<span>职场司南，专注于大学生及毕业五年内群体的职业发展</span>-->
+        <!--<br>-->
+        <!--<button (click)="router.navigateByUrl('/development')" nz-button nzSize="large" nzType="primary">专业的指导意见</button>-->
+      <!--</div>-->
+
+    <!--</div>-->
+  </div>
+</ng-container>
+
+
+<!--手机端 ??? -->
+<ng-container *ngIf="!httpService.devType">
+
+  <nz-carousel *ngIf="bannerlist.length"
+               [nzAutoPlaySpeed]="3000"
+               [nzAutoPlay]="true"
+               [nzDots]="false"
+               [nzEffect]="effect"
+               [nzEnableSwipe]="true" (nzBeforeChange)="changeNew($event)">
+    <div *ngFor="let index of bannerlist"
+         nz-carousel-content
+         style="cursor: pointer;">
+      <div *ngIf="index.courseId" [routerLink]="'../vd/'+index.courseId">
+        <img [src]="index.imageUrl" style="display: block;width: 100vw;height: 175px;">
+      </div>
+      <a *ngIf="!index.courseId && index.link" [href]="index.link" style="display: block;">
+        <img [src]="index.imageUrl" style="display: block;width: 100vw;height: 175px;">
+      </a>
+      <div *ngIf="!index.courseId && !index.link">
+        <img [src]="index.imageUrl" style="display: block;width: 100vw;height: 175px;">
+      </div>
+    </div>
+  </nz-carousel>
+
+  <div *ngIf="bannerlist.length>1" class="dots_box" style="margin-top: -20px;position: absolute;z-index: 100;width: 100%;text-align: center">
+    <p *ngFor="let item of bannerlist; let i = index" [class]="dotN==i?'activeP':''"></p>
+  </div>
+
+  <div class="mb-box-wrapper bgColor">
+    <div class="mb-box-header" style="display: flex;justify-content: space-between;align-items: center;padding: 0 15px">
+      <h1 style="margin-bottom: 0">热门视频</h1>
+      <span (click)="mbPagination()">查看更多   ></span>
+    </div>
+    <div class="mb-box-body">
+      <nz-list [nzDataSource]="hots?.currentData?hots?.currentData:[]" [nzGrid]="{ gutter: 10, xs: 12 }" [nzRenderItem]="item">
+        <ng-template #item let-item>
+          <nz-list-item [nzContent]="nzContent">
+            <ng-template #nzContent>
+              <app-vditem [data]="item" [devType]="httpService.devType"></app-vditem>
+            </ng-template>
+          </nz-list-item>
+        </ng-template>
+      </nz-list>
+      <div style="text-align: center" *ngIf="hots.data.length>6 && hots.currentData.length<=6">
+        <button (click)="mbPagination()" nz-button nzType="default" style="margin: 30px 0;background: #D10000;color: #fff;">加载更多</button>
+      </div>
+      <div *ngIf="guanggao.ggHotList[0]?.link===null || guanggao.ggHotList[0]?.link==='null'">
+        <img *ngIf="guanggao.ggHotList.length>0" style="width: 100%;height: 70px;margin: 30px 0" [src]="guanggao.ggHotList[0]?.imageUrl" alt="">
+      </div>
+      <a *ngIf="guanggao.ggHotList[0]?.link!==null || guanggao.ggHotList[0]?.link==='null'" [href]="guanggao.ggHotList[0]?.link" target="_blank">
+        <img *ngIf="guanggao.ggHotList.length>0" style="width: 100%;height: 70px;margin: 30px 0" [src]="guanggao.ggHotList[0]?.imageUrl" alt="">
+      </a>
+    </div>
+  </div>
+  <div class="mb-box-wrapper">
+    <div class="mb-box-header" style="display: flex;justify-content: space-between;align-items: center;padding: 0 15px">
+      <h1 style="margin-bottom: 0">职业发展</h1>
+      <span routerLink="../development">查看更多   ></span>
+    </div>
+    <div class="mb-box-body">
+      <nz-list [nzDataSource]="developList" [nzGrid]="{ gutter: 10, xs: 12 }" [nzRenderItem]="item">
+        <ng-template #item let-item>
+          <nz-list-item [nzContent]="nzContent">
+            <ng-template #nzContent>
+              <app-vditem [data]="item" [devType]="httpService.devType"></app-vditem>
+            </ng-template>
+          </nz-list-item>
+        </ng-template>
+      </nz-list>
+      <div style="text-align: center">
+        <button nz-button nzType="default" routerLink="../development" style="margin-top: 30px;background: #D10000;color: #fff;">加载更多</button>
+      </div>
+      <div *ngIf="guanggao.ggDevelopList[0]?.link===null || guanggao.ggDevelopList[0]?.link==='null'">
+        <img *ngIf="guanggao.ggDevelopList.length>0" style="width: 100%;height: 70px;margin: 30px 0" [src]="guanggao.ggDevelopList[0]?.imageUrl" alt="">
+      </div>
+      <a *ngIf="guanggao.ggDevelopList[0]?.link!==null || guanggao.ggDevelopList[0]?.link==='null'" [href]="guanggao.ggDevelopList[0]?.link" target="_blank">
+        <img *ngIf="guanggao.ggDevelopList.length>0" style="width: 100%;height: 70px;margin: 30px 0" [src]="guanggao.ggDevelopList[0]?.imageUrl" alt="">
+      </a>
+    </div>
+  </div>
+  <div class="mb-box-wrapper">
+    <div class="mb-box-header" style="display: flex;justify-content: space-between;align-items: center;padding: 0 15px">
+      <h1 style="margin-bottom: 0">热门岗位</h1>
+      <span routerLink="../profession">查看更多   ></span>
+    </div>
+    <div class="mb-box-body">
+      <nz-list [nzDataSource]="professionList" [nzGrid]="{ gutter: 10, xs: 12}" [nzRenderItem]="item">
+        <ng-template #item let-item>
+          <nz-list-item [nzContent]="nzContent">
+            <ng-template #nzContent>
+              <app-vditem [data]="item" [devType]="httpService.devType"></app-vditem>
+            </ng-template>
+          </nz-list-item>
+        </ng-template>
+      </nz-list>
+      <div style="text-align: center">
+        <button nz-button nzType="default" routerLink="../profession" style="margin: 30px 0;background: #D10000;color: #fff;">加载更多</button>
+      </div>
+      <div *ngIf="guanggao.ggProfessionList[0]?.link===null || guanggao.ggProfessionList[0]?.link==='null'">
+        <img *ngIf="guanggao.ggProfessionList.length>0" style="width: 100%;height: 70px;margin: 30px 0" [src]="guanggao.ggProfessionList[0]?.imageUrl" alt="">
+      </div>
+      <a *ngIf="guanggao.ggProfessionList[0]?.link!==null || guanggao.ggProfessionList[0]?.link==='null'" [href]="guanggao.ggProfessionList[0]?.link" target="_blank">
+        <img *ngIf="guanggao.ggProfessionList.length>0" style="width: 100%;height: 70px;margin: 30px 0" [src]="guanggao.ggProfessionList[0]?.imageUrl" alt="">
+      </a>
+    </div>
+  </div>
+  <div class="mb-box-wrapper bgColor">
+    <div class="mb-box-header" style="display: flex;justify-content: space-between;align-items: center;padding: 0 15px;margin-bottom: 25px">
+      <h1 style="margin-bottom: 0">求职实习</h1>
+      <span routerLink="../zixun">查看更多   ></span>
+    </div>
+    <div class="mb-box-body">
+      <!--<nz-list [nzDataSource]="gaokaozixun" [nzGrid]="{ gutter: 10, xs: 12}" [nzRenderItem]="item">-->
+        <!--<ng-template #item let-item>-->
+          <!--<nz-list-item [nzContent]="nzContent">-->
+            <!--<ng-template #nzContent>-->
+              <!--<app-vditem [data]="item" [devType]="httpService.devType"></app-vditem>-->
+            <!--</ng-template>-->
+          <!--</nz-list-item>-->
+        <!--</ng-template>-->
+      <!--</nz-list>-->
+     <div style="min-height: 350px;background: #F6F6F6">
+       <nz-carousel *ngIf="gaokaozixun.length"
+                    [nzAutoPlaySpeed]="3000"
+                    [nzAutoPlay]="false"
+                    [nzEffect]="effect"
+                    [nzEnableSwipe]="true"
+                    [nzDots]="false"
+                    (nzBeforeChange)="changeCarousel($event)">
+         <div *ngFor="let index of gaokaozixun"
+              nz-carousel-content
+              style="cursor: pointer;"
+         >
+           <img class="gkImage" [src]="index.src" alt="图片">
+           <div style="background: #F6F6F6;padding: 26px 4px 31px 16px">
+             <p style="color: #D10000;font-size: 18px;margin-bottom: 0">{{index.pageM == 'iPage1'?'找工作':index.pageM == 'iPage2'?'找兼职':index.pageM == 'iPage3'?'找实习':''}}</p>
+             <div *ngFor="let v of index" style="display: flex;line-height:29px;align-items: center;color: #404040;font-size: 14px" routerLink="/zixunDetail" [queryParams]="{id: v.id,type: v.type}">
+               <span style="width: 4px;height: 4px;background: #d10000;border-radius: 50%;display: inline-block;margin-right: 10px"></span>
+               <p style="margin-bottom: 0">{{v.title}}</p>
+             </div>
+           </div>
+         </div>
+       </nz-carousel>
+     </div>
+      <div class="dots_box" style="margin-top: 25px;">
+        <p  *ngFor="let item of gaokaozixun; let i = index" [class]="dotIndex==i?'activeP':''"></p>
+      </div>
+
+      <div *ngIf="guanggao.ggZiXunList[0]?.link===null || guanggao.ggZiXunList[0]?.link==='null'">
+        <img *ngIf="guanggao.ggZiXunList.length>0" style="width: 100%;height: 70px;margin: 30px 0" [src]="guanggao.ggZiXunList[0]?.imageUrl" alt="图片">
+      </div>
+      <a *ngIf="guanggao.ggZiXunList[0]?.link!==null || guanggao.ggZiXunList[0]?.link==='null'" [href]="guanggao.ggZiXunList[0]?.link" target="_blank">
+        <img *ngIf="guanggao.ggZiXunList.length>0" style="width: 100%;height: 70px;margin: 30px 0" [src]="guanggao.ggZiXunList[0]?.imageUrl" alt="图片">
+      </a>
+      <!--<p class="promptRegister">现在就去注册，为自己的职业发展做选择</p>-->
+      <!--<p style="text-align: center">职场司南，专注于大学生及毕业五年内群体的职业发展</p>-->
+      <!--<div style="text-align: center">-->
+        <!--<button (click)="router.navigateByUrl('/development')" nz-button style="width: 150px;height: 41px;border-radius: 3px;font-size: 16px;margin: 8px 0 30px;background: #D10000;color: #fff;">专业的指导意见</button>-->
+      <!--</div>-->
+    </div>
+  </div>
+</ng-container>
+

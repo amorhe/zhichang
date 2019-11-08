@@ -1,0 +1,195 @@
+.gaokao {
+  .head-img {
+    width: 62.5vw;
+    height: 12.5vw;
+    background-color: #005bad;
+  }
+
+  .wrap {
+    width: 62.5vw;
+    display: flex;
+    justify-content: space-between;
+    margin: 2.6vw 0 0;
+  }
+
+  .left {
+    width: 14.063vw * 3.1;
+
+    .tabs {
+      width: 100%;
+      font-family: MicrosoftYaHei;
+      font-size: 1.042vw;
+      font-weight: normal;
+      font-stretch: normal;
+
+      .tab {
+        display: inline-block;
+        width: 14.063vw;
+        height: 2.396vw;
+        line-height: 2.396vw;
+        color: #666;
+        background: #f2f2f2;
+        text-align: center;
+        margin-right: 2px;
+
+        &.active {
+          background-color: #d10000;
+          color: white;
+        }
+      }
+    }
+
+    .content {
+      .list {
+        .item {
+          width: 100%;
+          padding: 1.6vw 0;
+          display: flex;
+          border-bottom: 1px solid #e6e6e6;
+          overflow: hidden;
+
+          img {
+            width: 12.5vw;
+            height: 7.031vw;
+            background-image: linear-gradient(
+              rgba(0, 0, 0, 0.1),
+              rgba(0, 0, 0, 0.1)),
+            linear-gradient(
+              #ffffff,
+              #ffffff);
+            background-blend-mode: normal,
+            normal;
+            margin-right: 1.5vw;
+          }
+
+          section {
+            h1 {
+              font-family: MicrosoftYaHei;
+              font-size: 1.042vw;
+              font-weight: normal;
+              font-stretch: normal;
+            }
+
+            article {
+              font-family: MicrosoftYaHei;
+              font-size: 0.729vw;
+              font-weight: normal;
+              font-stretch: normal;
+              color: #666666;
+            }
+
+            footer {
+              padding-top: 1.5vw;
+            }
+          }
+        }
+      }
+    }
+  }
+
+
+  .right {
+    width: 14.844vw;
+    height: 35.833vw;
+
+    .title {
+      @height: 0.99vw;
+      height: @height;
+      line-height: @height;
+      font-family: MicrosoftYaHei;
+      font-size: @height;
+      font-weight: normal;
+      font-stretch: normal;
+      border-left: @height/5 solid #D10000;
+      text-indent: 1em;
+      margin-top: @height/2;
+      margin-bottom: 1.717vw;
+    }
+
+    .content {
+      width: 14.844vw;
+      background-color: #f6f6f6;
+      box-shadow: inset 0vw -0.052vw 0vw 0vw #e6e8eb;
+
+      ul {
+        padding: 1.56vw;
+
+        li {
+          width: 11.667vw;
+          list-style-type: disc;
+          font-family: MicrosoftYaHei;
+          font-size: 0.729vw;
+          line-height: 1.458vw;
+          color: #666666;
+          margin-bottom: 1.2vw;
+          word-break: break-all;
+
+          &:hover {
+            color: #D10000;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+
+  .bottom {
+    width: 400px;
+    margin: 2.5vw auto;
+  }
+
+  ::ng-deep .ant-pagination-next {
+    display: none;
+  }
+
+  ::ng-deep .ant-pagination-before {
+    display: none;
+  }
+
+  ::ng-deep .ant-pagination-jump-next:after, .ant-pagination-jump-prev:after {
+    display: none;
+  }
+
+  ::ng-deep .ant-pagination-jump-next:before, .ant-pagination-jump-prev:before {
+    display: none;
+  }
+
+  ::ng-deep .ant-pagination-jump-prev:after {
+    display: none;
+  }
+
+  ::ng-deep .ant-pagination-jump-next:after, .ant-pagination-jump-prev:after {
+    content: "•••";
+    letter-spacing: 2px;
+    color: rgba(0, 0, 0, .25);
+    text-align: center;
+    display: none !important;
+  }
+
+  ::ng-deep .ant-pagination-item-active {
+    font-weight: 500;
+    border-color: transparent;
+    background: #D10000 !important;
+
+    a {
+      color: white;
+    }
+  }
+
+  ::ng-deep .ant-pagination-item {
+    background: #f2f2f2;
+  }
+
+  ::ng-deep .ant-pagination-jump-prev:hover {
+    &:after {
+      display: none !important;
+    }
+  }
+
+  .eclips{
+    overflow: hidden;
+    height: 3em;
+    line-height: 1.5em;
+  }
+
+}

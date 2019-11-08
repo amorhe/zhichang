@@ -1,0 +1,30 @@
+<div class="gaokao-detail vd-box">
+  <div class="wrap">
+    <div class="left">
+      <article>
+        <h1>{{content?.title}}</h1>
+        <h6>来源：{{content?.source}} &nbsp; &nbsp; &nbsp; {{content?.gmtCreate}} </h6>
+
+        <section [innerHTML]="content?.articleContent">
+        </section>
+      </article>
+
+      <footer>
+        <div class="pre"  (click)="upload(content?.upid)" [hidden]="!content?.upid">上一篇：{{content?.uptitle}}</div>
+        <div class="nex"  (click)="upload(content?.downid)" [hidden]="!content?.downid">下一篇：{{content?.downtitle}}</div>
+      </footer>
+    </div>
+
+    <div class="right">
+      <div class="title">热点新闻</div>
+      <div class="content">
+        <ul>
+          <li
+            (click)="upload(i?.id)"
+            *ngFor="let i of hot"
+          >{{i?.title}}</li>
+        </ul>
+      </div>
+    </div>
+</div>
+</div>

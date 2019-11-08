@@ -1,0 +1,86 @@
+<div [ngClass]="{'mb-user': !httpService.devType}" class="clearfix" [class]="httpService.devType?'contentWrapPc':'contentWrapMb'">
+  <div *ngIf="httpService.devType" style="margin-bottom: 25px;display: flex;justify-content: space-between;align-items: baseline">
+    <img alt="" src="../../assets/logo.png" width="324">
+    <div style="">
+      <span>已有账号？</span>
+      <span style="color: #D10000;font-size: 14px;cursor: pointer" (click)="router.navigateByUrl('/login')">去登录</span>
+      <span>&nbsp;|&nbsp;</span>
+      <span style="color: #D10000;font-size: 14px;cursor: pointer" (click)="router.navigateByUrl('/index')">返回职场司南</span>
+    </div>
+  </div>
+
+  <div [class]="httpService.devType?'vb-show':'mb-show'">
+
+    <h3 style="height: 60px;text-align: center;line-height: 60px;font-family: MicrosoftYaHei;font-size: 24px;font-weight: normal;font-stretch: normal;">用户注册</h3>
+
+    <form
+      (ngSubmit)="register()"
+      [formGroup]="validateForm"
+      [class]="httpService.devType?'li-form':''"
+      nz-form
+    >
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phoneNumber" nzRequired>手机号</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzValidateStatus]="validateForm.controls['phoneNumber']" [nzXs]="24">
+          <input formControlName="phoneNumber" id="'phoneNumber'" nz-input/>
+          <nz-form-explain *ngIf="validateForm.get('phoneNumber')?.dirty && validateForm.get('phoneNumber')?.errors">
+            请输入您的电话号码
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+      <!--<nz-form-item>-->
+        <!--<nz-form-label [nzSm]="6" [nzXs]="24" nzFor="password" nzRequired>密码</nz-form-label>-->
+        <!--<nz-form-control [nzSm]="14" [nzXs]="24">-->
+          <!--<input formControlName="password" id="password" nz-input type="password"/>-->
+          <!--<nz-form-explain *ngIf="validateForm.get('password')?.dirty && validateForm.get('password')?.errors">长度为4-16，只支持大小写字母及数字</nz-form-explain>-->
+        <!--</nz-form-control>-->
+      <!--</nz-form-item>-->
+      <!--<nz-form-item>-->
+        <!--<nz-form-label [nzSm]="6" [nzXs]="24" nzFor="checkPassword" nzRequired>确认密码</nz-form-label>-->
+        <!--<nz-form-control [nzSm]="14" [nzXs]="24">-->
+          <!--<input formControlName="checkPassword" id="checkPassword" nz-input type="password"/>-->
+          <!--<nz-form-explain *ngIf="validateForm.get('checkPassword')?.dirty && validateForm.get('checkPassword')?.errors">-->
+            <!--<ng-container *ngIf="validateForm.get('checkPassword')?.hasError('required')">-->
+              <!--请输入正确的密码-->
+            <!--</ng-container>-->
+            <!--<ng-container *ngIf="validateForm.get('checkPassword')?.hasError('confirm')">-->
+              <!--两次密码不一致-->
+            <!--</ng-container>-->
+          <!--</nz-form-explain>-->
+        <!--</nz-form-control>-->
+      <!--</nz-form-item>-->
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="captcha" nzRequired>验证码</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <div [nzGutter]="8" nz-row>
+            <div [nzSpan]="14" nz-col>
+              <input formControlName="captcha" id="captcha" nz-input/>
+            </div>
+            <div [nzSpan]="10" nz-col>
+              <button (click)="getCaptcha($event)" [disabled]="btn_clicked" class="getCode" nz-button>{{getBtnText()}}</button>
+            </div>
+          </div>
+          <nz-form-explain *ngIf="validateForm.get('captcha')?.dirty && validateForm.get('captcha')?.errors">请输入验证码</nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item nz-row style="margin-bottom:8px;">
+        <nz-form-control [nzSm]="{ span: 14, offset: 6 }" [nzXs]="{ span: 24, offset: 0 }">
+          <div [nzSpan]="24" nz-col>
+            <button [nzType]="'primary'" [hidden]="!validateForm.invalid" [disabled]="validateForm.invalid" nz-button nzSize="large" nzBlock style="background: #ccc;color: #fff;">注册</button>
+            <button [nzType]="'primary'" [hidden]="validateForm.invalid" [disabled]="validateForm.invalid" nz-button nzSize="large" nzBlock style="background: #D10000;color: #fff;">注册</button>
+          </div>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+
+  <div *ngIf="!httpService.devType" style="text-align: center;margin-top: 20px">
+    <span style="color: #999;">已有账号?去</span>
+    <span style="color: #d10000;cursor: pointer" routerLink="/login">登录</span>
+  </div>
+
+  <footer *ngIf="httpService.devType" style="padding-top: 40px">
+    Copyright © 2018-2019 职场司南 浙ICP备18039212号 <i nz-icon nzTheme="outline" nzType="phone"></i> 0571-85383155
+  </footer>
+</div>

@@ -1,0 +1,84 @@
+<nz-carousel [nzEffect]="effect" [nzDots]="banner.length>1" [nzAutoPlay]="true" [nzAutoPlaySpeed]="3000"
+             *ngIf="banner.length">
+  <div nz-carousel-content *ngFor="let index of banner"
+       style="cursor: pointer;">
+    <div *ngIf="index.courseId" [routerLink]="'../vd/'+index.courseId">
+      <img [src]="index.imageUrl" style="display: block;width: 100%;">
+    </div>
+    <a *ngIf="!index.courseId && index.link" [href]="index.link" style="display: block;">
+      <img [src]="index.imageUrl" style="display: block;width: 100%;">
+    </a>
+    <div *ngIf="!index.courseId && !index.link">
+      <img [src]="index.imageUrl" style="display: block;width: 100%;">
+    </div>
+  </div>
+</nz-carousel>
+
+
+<div class="vd-box gaokao">
+  <div class="wrap">
+    <div class="left">
+
+      <div class="tabs">
+        <div
+          (click)="changeTab(tabIndex)"
+          *ngFor="let tab of Tabs; let tabIndex = index"
+          [ngClass]="{active:tabIndex === activeTab}"
+          class="tab"
+          style="cursor:pointer;"
+        >{{tab}}</div>
+      </div>
+
+      <div class="content">
+        <ul class="list">
+          <li (click)="router.navigateByUrl('/gaokao-detail?id='+ i.id + '&type=' + i.type)"
+              *ngFor="let i of dataList"
+              class="item" style="cursor: pointer"
+          >
+            <img
+              [hidden]="!i.thumbnail || i.thumbnail==='' || i.thumbnail ==='{}' || i.thumbnail === null"
+              [src]="i.thumbnail"
+              alt=""
+              class="">
+            <section>
+              <h1 style="font-size: 20px;">
+                {{i.title}}
+              </h1>
+
+              <div class="eclips aaa">
+                <article [innerHTML]="i.articleContent">
+                  <!--{{i.articleContent}}-->
+                </article>
+              </div>
+
+              <footer style="color: #999;">
+                来源：{{i.source}} &nbsp;&nbsp;{{i.gmtCreate}}
+              </footer>
+            </section>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="right">
+      <div class="title">热点新闻</div>
+      <div class="content">
+        <ul>
+          <li
+            (click)="router.navigateByUrl('/gaokao-detail?id='+ i.id + '&type=' + i.type)"
+            *ngFor="let i of hot"
+          >{{i?.title}}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom">
+    <nz-pagination (nzPageIndexChange)="changePage($event)" [nzItemRender]="renderItemTemplate" [nzPageIndex]="current" [nzPageSize]="size" [nzTotal]="total"></nz-pagination>
+  </div>
+  <ng-template #renderItemTemplate let-page="page" let-type>
+    <!--    <a *ngIf="type === 'pre'">上一页</a>-->
+    <!--    <a *ngIf="type === 'next'">下一页</a>-->
+    <a *ngIf="type === 'page'">{{ page }}</a>
+  </ng-template>
+</div>

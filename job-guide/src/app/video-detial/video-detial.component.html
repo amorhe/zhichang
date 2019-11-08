@@ -1,0 +1,136 @@
+<ng-container *ngIf="httpService.devType">
+  <div class="album-head-con li-v-d vd-box"
+       itemscope="" itemtype="http://schema.org/TVSeries"
+       style="padding-top: 3vw !important;padding-bottom: 2.4vw !important;"
+  >
+    <div *ngIf="!isplay" class="album-head-info clearfix">
+      <div class="info-img" style="position: relative">
+        <p *ngIf="!courseInfo?.freeFlag" style="position: absolute;top: 5px;left: 5px;border-radius: 3px;color: #fff;background: #D10000;width:40px;
+height:22px;font-size: 12px;text-align: center;line-height: 22px">VIP</p>
+        <a (click)="play()">
+          <img [src]="courseInfo?.coverUrl" id="j-album-img" itemprop="image">
+        </a>
+      </div>
+
+
+      <div class="info-intro">
+        <h1 class="j-head-hot-wrap" itemprop="name">
+          <a>{{courseInfo?.title}}</a>
+        </h1>
+        <!-- 简介 -->
+        <div class="episodeIntro titleInfo-viserabHei" data-widget-elem="moreorless">
+          <div class="episodeIntro-item clearfix">
+            <div class="episodeIntro-line">
+              <p class="episodeIntro-area" itemprop="contentLocation">
+                <em>播放次数：</em>
+                <a style="color: #d10000;">{{courseInfo?.playCount}}</a>次
+              </p>
+              <!-- <p class="episodeIntro-time" itemprop="datePublished">
+                <em>是否免费：</em>
+                <span>{{courseInfo?.freeFlag ? '是':'否'}}</span>
+              </p> -->
+            </div>
+
+          </div>
+          <!-- 展开前 -->
+          <div class="shortWordIntro-brief" data-moreorless="lessinfo" itemprop="description">
+            <em>简介：</em>
+            <span class="briefIntroTxt">{{courseInfo?.intro}}</span>
+          </div>
+        </div>
+        <!-- 播放按钮 -->
+        <div class="intro-btns clearfix" style="padding-top: 1.3vw">
+          <button (click)="play()" nz-button nzSize="large" nzType="primary">&nbsp;&nbsp;&nbsp; 立即播放 &nbsp;&nbsp;&nbsp;</button>
+          <a (click)="shareT()" class="albumPlayBtn"><i nz-icon nzTheme="outline" nzType="share-alt"></i>分享</a>
+        </div>
+
+      </div>
+    </div>
+    <video *ngIf="isplay" controls="true" controlslist="nodownload" style="display: block;width: 100%;margin: 20px 0;outline: none;">
+      <source [src]="courseInfo?.videoUrl">
+    </video>
+  </div>
+
+  <!--    相关课程推荐-->
+  <!--    相关课程推荐-->
+  <!--    相关课程推荐-->
+  <!--    相关课程推荐-->
+  <!--    相关课程推荐-->
+
+  <div class="white-space">
+    <h3>相关课程推荐</h3>
+
+    <nz-list [nzDataSource]="courseList.data" [nzGrid]="{ gutter: 16, sm: 12, md: 8, lg: 6 }"
+             [nzRenderItem]="item">
+      <ng-template #item let-item>
+        <nz-list-item [nzContent]="nzContent">
+          <ng-template #nzContent>
+            <app-vditem [data]="item"></app-vditem>
+          </ng-template>
+        </nz-list-item>
+      </ng-template>
+    </nz-list>
+  </div>
+
+
+  <!--广告位-->
+  <!--广告位-->
+  <!--广告位-->
+
+  <div class="vd-box" style="background: #f2f2f2">
+    <img alt="" class="shadow-box" src="../../assets/adv.png" style="margin-bottom: 70px">
+  </div>
+
+
+</ng-container>
+
+<style>
+  .white-space {
+    padding-top: 1vw;
+    padding-bottom: 1vw;
+    background: #f2f2f2;
+  }
+
+  .white-space > h3 {
+    font-size: 16px;
+    color: #999;
+    padding-bottom: 1vw;
+  }
+</style>
+
+<!--手机-->
+<ng-container *ngIf="!httpService.devType">
+  <div class="mb-poster">
+    <div (click)="play($event)" *ngIf="!isplay" class="mb-box-preview">
+      <img [src]="courseInfo?.coverUrl">
+    </div>
+    <video autoplay *ngIf="isplay" controls id="videos" style="display: block;width: 100%;outline: none;position: relative;z-index: 1;">
+      <source [src]="courseInfo?.videoUrl">
+    </video>
+  </div>
+  <div class="mb-video-info">
+    <p class="episodeIntro-area"><em>播放次数：</em><a>{{courseInfo?.playCount}}次</a></p>
+    <!-- <p class="episodeIntro-time"><em >是否免费：</em><span >否</span></p> -->
+  </div>
+  <p class="mb-video-intro"><em>简介：</em>{{courseInfo?.intro}}</p>
+
+
+<h3 style="margin: 40px 0 25px 16px;font-size: 14px;color: #999;">相关课程推荐</h3>
+<div style="width: 100vw;padding: 0 10px">
+  <nz-list [nzDataSource]="courseList.data" [nzItemLayout]="'vertical'" [nzGrid]="{ gutter: 10, xs: 12 }" [nzRenderItem]="item">
+    <ng-template #item let-item>
+      <nz-list-item [nzContent]="nzContent">
+        <ng-template #nzContent>
+          <app-vditem [data]="item"></app-vditem>
+        </ng-template>
+      </nz-list-item>
+    </ng-template>
+  </nz-list>
+  <div *ngIf="courseList?.data.length>6 && courseList?.currentData.length<=6" style="text-align: center">
+    <button nz-button  nzType="default"
+            style="margin: 30px 0;background: #D10000;color: #fff;">加载更多
+    </button>
+  </div>
+</div>
+
+</ng-container>

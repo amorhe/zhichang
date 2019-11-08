@@ -1,0 +1,57 @@
+<nz-carousel [nzEffect]="effect" [nzDots]="false" [nzAutoPlay]="true" [nzAutoPlaySpeed]="3000"
+             *ngIf="banner.length" (nzBeforeChange)="changeZ($event)">
+  <div nz-carousel-content *ngFor="let index of banner"
+       style="cursor: pointer;">
+    <div *ngIf="index.courseId" [routerLink]="'../vd/'+index.courseId">
+      <img [src]="index.imageUrl" style="display: block;width: 100%;">
+    </div>
+    <a *ngIf="!index.courseId && index.link" [href]="index.link" style="display: block;">
+      <img [src]="index.imageUrl" style="display: block;width: 100%;">
+    </a>
+    <div *ngIf="!index.courseId && !index.link">
+      <img [src]="index.imageUrl" style="display: block;width: 100%;">
+    </div>
+  </div>
+</nz-carousel>
+
+<div *ngIf="banner.length>1" class="dots_box" style="margin-top: -20px;position: absolute;z-index: 100;width: 100%;text-align: center">
+  <p *ngFor="let item of banner; let i = index" [class]="dotZ==i?'activeP':''"></p>
+</div>
+
+<div style="background: #fff;min-height: 40vh">
+  <div class="tabsTf">
+    <div [class]="type == 0?'activeD':''" (click)="moveTab(0)">找工作</div>
+    <div [class]="type == 1?'activeD':''" (click)="moveTab(1)">找兼职</div>
+    <div [class]="type == 2?'activeD':''" (click)="moveTab(2)">找实习</div>
+  </div>
+
+  <nz-list
+    [nzDataSource]="list"
+    [nzLoading]="initLoading"
+    [nzRenderItem]="item"
+    [nzLoadMore]="loadMore"
+  >
+    <ng-template #item let-item>
+      <nz-list-item>
+        <div (click)="router.navigateByUrl('/zixunDetail?id='+item?.id+'&type='+item?.type )">
+          <div class="list-nav" *ngIf="item.thumbnail !== null && item.thumbnail !== 'null' && item.thumbnail !=='' && item.thumbnail !== '{}'">
+            <img [src]="item.thumbnail" alt="">
+            <div>
+              <p>{{item.title}}</p>
+              <p><span>来源：{{item.source}}</span><span>{{item.gmtCreate}}</span></p>
+            </div>
+          </div>
+          <div style="width: 100vw;overflow: hidden;box-sizing: border-box" class="list-vertical-nav" *ngIf="!(item.thumbnail !== null && item.thumbnail !== 'null' && item.thumbnail !=='' && item.thumbnail !== '{}')">
+          <p style="width: 100%;overflow: hidden;text-overflow: ellipsis">{{item.title}}</p>
+          <p><span>来源：{{item.source}}</span><span>{{item.gmtCreate}}</span></p>
+          </div>
+        </div>
+      </nz-list-item>
+    </ng-template>
+    <ng-template #loadMore>
+      <div class="loadmore">
+        <button nz-button *ngIf="!loadingMore && list.length>size" (click)="onLoadMore()">加载更多</button>
+      </div>
+    </ng-template>
+  </nz-list>
+</div>
